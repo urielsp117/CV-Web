@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Uriel Elihú Sánchez Proa — Ingeniería en Sistemas e Infraestructura TI</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #0E141B;
+    --bg-panel: #151D27;
+    --bg-panel-2: #1A2430;
+    --line: #263140;
+    --text: #E7ECF1;
+    --text-muted: #8C99A8;
+    --accent: #4FC3A1;
+    --accent-soft: rgba(79,195,161,0.14);
+    --signal: #FFB454;
+    --radius: 3px;
+    --font-display: 'Space Grotesk', system-ui, sans-serif;
+    --font-mono: 'IBM Plex Mono', ui-monospace, monospace;
+  }
+  :root:not([data-theme="light"]){
+    --bg: #0E141B;
+    --bg-panel: #151D27;
+    --bg-panel-2: #1A2430;
+    --line: #263140;
+    --text: #E7ECF1;
+    --text-muted: #8C99A8;
+    --accent: #4FC3A1;
+    --accent-soft: rgba(79,195,161,0.14);
+    --signal: #FFB454;
+  }
+  :root[data-theme="dark"]{
+    --bg: #0E141B;
+    --bg-panel: #151D27;
+    --bg-panel-2: #1A2430;
+    --line: #263140;
+    --text: #E7ECF1;
+    --text-muted: #8C99A8;
+    --accent: #4FC3A1;
+    --accent-soft: rgba(79,195,161,0.14);
+    --signal: #FFB454;
+  }
+
+  *{ box-sizing: border-box; }
+  html{ scroll-behavior: smooth; }
+  body{
+    margin:0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-display);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+  a{ color: inherit; }
+  img{ max-width:100%; display:block; }
+
+  .wrap{
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 0 28px;
+  }
+
+  /* ---------- topology background ---------- */
+  .topo{
+    position:fixed;
+    top:0; left:0;
+    width:100vw;
+    height:100vh;
+    opacity:0.35;
+    pointer-events:none;
+    z-index:0;
+  }
+  .topo line{ stroke: var(--line); stroke-width:1; }
+  .topo circle{ fill: var(--bg-panel-2); stroke: var(--line); stroke-width:1; }
+  .topo .lit{ fill: var(--accent); stroke: var(--accent); }
+  @keyframes pulse{
+    0%,100%{ opacity:1; }
+    50%{ opacity:0.35; }
+  }
+  .topo .lit{ animation: pulse 3.4s ease-in-out infinite; }
+
+  /* ---------- hero ---------- */
+  header.hero{
+    position: relative;
+    border-bottom: 1px solid var(--line);
+    padding: 72px 0 56px;
+  }
+  .hero-inner{
+    position:relative;
+    z-index:2;
+    display:grid;
+    grid-template-columns: 132px 1fr;
+    gap: 36px;
+    align-items:center;
+  }
+  .photo-slot{
+    width:132px;
+    height:132px;
+    border-radius:50%;
+    border: 1.5px solid var(--line);
+    background: var(--bg-panel);
+    overflow:hidden;
+    flex-shrink:0;
+  }
+  .photo-slot img{ width:100%; height:100%; object-fit:cover; display:block; }
+
+  .kicker{
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--accent);
+    margin: 0 0 10px;
+    letter-spacing: 0.02em;
+  }
+  h1{
+    font-size: clamp(32px, 4.4vw, 48px);
+    font-weight: 700;
+    margin: 0 0 8px;
+    letter-spacing: -0.01em;
+  }
+  .role{
+    font-size: 17px;
+    color: var(--text-muted);
+    margin: 0 0 20px;
+    max-width: 48ch;
+  }
+  .contact-row{
+    display:flex;
+    flex-wrap:wrap;
+    gap: 10px 18px;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--text-muted);
+  }
+  .contact-row span{ display:flex; align-items:center; gap:7px; }
+  .contact-row svg{ width:14px; height:14px; stroke: var(--accent); flex-shrink:0; }
+
+  .cta-row{ display:flex; gap:12px; margin-top:26px; flex-wrap:wrap; }
+  .btn{
+    font-family: var(--font-display);
+    font-size: 14px;
+    font-weight:600;
+    padding: 11px 20px;
+    border-radius: var(--radius);
+    text-decoration:none;
+    border: 1px solid transparent;
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+  }
+  .btn-primary{ background: var(--accent); color: #0E141B; }
+  .btn-ghost{ border-color: var(--line); color: var(--text); }
+  .btn-ghost:hover{ border-color: var(--accent); }
+
+  /* ---------- sections ---------- */
+  section{ padding: 56px 0; border-bottom: 1px solid var(--line); }
+  section:last-of-type{ border-bottom:none; }
+  .section-head{
+    display:flex;
+    align-items:baseline;
+    justify-content:space-between;
+    margin-bottom: 28px;
+    gap: 16px;
+  }
+  h2{
+    font-size: 22px;
+    font-weight: 700;
+    margin:0;
+  }
+  .section-num{
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--text-muted);
+  }
+
+  .lead{
+    font-size: 16px;
+    color: var(--text-muted);
+    max-width: 68ch;
+  }
+
+  /* timeline */
+  .timeline{ position:relative; }
+  .tl-item{
+    position:relative;
+    padding-left: 30px;
+    padding-bottom: 34px;
+    border-left: 1px solid var(--line);
+    margin-left: 5px;
+  }
+  .tl-item:last-child{ padding-bottom:0; border-left-color: transparent; }
+  .tl-dot{
+    position:absolute;
+    left:-5px;
+    top:4px;
+    width:9px;
+    height:9px;
+    border-radius:50%;
+    background: var(--bg);
+    border: 2px solid var(--accent);
+  }
+  .tl-date{
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--accent);
+    margin-bottom: 6px;
+  }
+  .tl-role{ font-size: 17px; font-weight:600; margin: 0 0 2px; }
+  .tl-org{ font-size: 14px; color: var(--text-muted); margin: 0 0 12px; }
+  .tl-list{
+    margin:0;
+    padding-left: 18px;
+    color: var(--text-muted);
+    font-size: 14.5px;
+  }
+  .tl-list li{ margin-bottom:6px; }
+  .tl-list li::marker{ color: var(--accent); }
+
+  /* two column grid for education / languages */
+  .grid-2{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 28px;
+  }
+  .card{
+    background: var(--bg-panel);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 20px 22px;
+  }
+  .card h3{ font-size: 15px; margin: 0 0 4px; }
+  .card p{ font-size: 13.5px; color: var(--text-muted); margin: 0; }
+  .card .date{ font-family: var(--font-mono); font-size: 12px; color: var(--accent); margin-top:8px; display:block; }
+
+  /* skills */
+  .skill-grid{
+    display:flex;
+    flex-wrap:wrap;
+    gap: 10px;
+  }
+  .skill-pill{
+    font-size: 13.5px;
+    padding: 8px 14px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--bg-panel);
+    color: var(--text);
+  }
+  .skill-pill.core{
+    border-color: var(--accent);
+    background: var(--accent-soft);
+    color: var(--accent);
+  }
+
+  /* certs */
+  .cert-grid{
+    display:grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+  .cert{
+    background: var(--bg-panel);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 18px;
+  }
+  .cert svg{ width:20px; height:20px; stroke: var(--accent); margin-bottom: 12px; }
+  .cert p{ font-size: 13.5px; margin:0; color: var(--text); }
+  .cert span{ display:block; font-family: var(--font-mono); font-size:11px; color: var(--text-muted); margin-top:6px; }
+
+  /* project */
+  .project{
+    background: var(--bg-panel);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 24px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  .project h3{ margin:0 0 6px; font-size:16px; }
+  .project p{ margin:0; color: var(--text-muted); font-size: 13.5px; }
+  .project .date{ font-family: var(--font-mono); font-size:12px; color: var(--accent); margin-top:8px; display:block; }
+  .project a{
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--accent);
+    text-decoration:none;
+    border: 1px solid var(--accent);
+    padding: 9px 16px;
+    border-radius: var(--radius);
+    white-space:nowrap;
+  }
+
+  /* footer */
+  footer{ padding: 48px 0 64px; }
+  .foot-inner{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-end;
+    flex-wrap:wrap;
+    gap: 24px;
+  }
+  footer h2{ font-size: 26px; margin:0 0 10px; }
+  footer p{ color: var(--text-muted); font-size:14px; max-width: 40ch; margin:0; }
+  .foot-links{ display:flex; flex-direction:column; gap:8px; font-family: var(--font-mono); font-size:13px; }
+  .foot-links a{ text-decoration:none; color: var(--text-muted); }
+  .foot-links a:hover{ color: var(--accent); }
+
+  @media (max-width: 700px){
+    .hero-inner{ grid-template-columns: 1fr; text-align:left; }
+    .grid-2{ grid-template-columns: 1fr; }
+    .cert-grid{ grid-template-columns: 1fr; }
+    .project{ flex-direction:column; align-items:flex-start; }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .topo .lit{ animation:none; }
+  }
+
+  :focus-visible{ outline: 2px solid var(--accent); outline-offset: 2px; }
+</style>
+</head>
+<body>
+
+<svg class="topo" viewBox="0 0 980 900" preserveAspectRatio="xMidYMid slice">
+  <line x1="80" y1="60" x2="240" y2="140"></line>
+  <line x1="240" y1="140" x2="120" y2="240"></line>
+  <line x1="240" y1="140" x2="400" y2="90"></line>
+  <line x1="400" y1="90" x2="560" y2="180"></line>
+  <line x1="560" y1="180" x2="720" y2="110"></line>
+  <line x1="560" y1="180" x2="640" y2="300"></line>
+  <line x1="720" y1="110" x2="880" y2="170"></line>
+  <line x1="120" y1="240" x2="260" y2="330"></line>
+  <line x1="260" y1="330" x2="440" y2="360"></line>
+  <line x1="440" y1="360" x2="640" y2="300"></line>
+  <line x1="720" y1="110" x2="800" y2="40"></line>
+  <line x1="120" y1="240" x2="90" y2="420"></line>
+  <line x1="260" y1="330" x2="220" y2="480"></line>
+  <line x1="440" y1="360" x2="480" y2="520"></line>
+  <line x1="640" y1="300" x2="700" y2="470"></line>
+  <line x1="880" y1="170" x2="900" y2="380"></line>
+  <line x1="90" y1="420" x2="220" y2="480"></line>
+  <line x1="220" y1="480" x2="480" y2="520"></line>
+  <line x1="480" y1="520" x2="700" y2="470"></line>
+  <line x1="700" y1="470" x2="900" y2="380"></line>
+  <line x1="90" y1="420" x2="130" y2="620"></line>
+  <line x1="480" y1="520" x2="440" y2="680"></line>
+  <line x1="700" y1="470" x2="760" y2="660"></line>
+  <line x1="130" y1="620" x2="440" y2="680"></line>
+  <line x1="440" y1="680" x2="760" y2="660"></line>
+  <line x1="760" y1="660" x2="820" y2="840"></line>
+  <line x1="440" y1="680" x2="380" y2="860"></line>
+  <line x1="130" y1="620" x2="200" y2="820"></line>
+  <circle cx="80" cy="60" r="5"></circle>
+  <circle cx="240" cy="140" r="5"></circle>
+  <circle cx="120" cy="240" r="5"></circle>
+  <circle cx="400" cy="90" r="5"></circle>
+  <circle cx="560" cy="180" r="6" class="lit"></circle>
+  <circle cx="720" cy="110" r="5"></circle>
+  <circle cx="880" cy="170" r="5"></circle>
+  <circle cx="260" cy="330" r="5"></circle>
+  <circle cx="440" cy="360" r="5"></circle>
+  <circle cx="640" cy="300" r="5"></circle>
+  <circle cx="800" cy="40" r="5"></circle>
+  <circle cx="90" cy="420" r="5"></circle>
+  <circle cx="220" cy="480" r="5"></circle>
+  <circle cx="480" cy="520" r="6" class="lit"></circle>
+  <circle cx="700" cy="470" r="5"></circle>
+  <circle cx="900" cy="380" r="5"></circle>
+  <circle cx="130" cy="620" r="5"></circle>
+  <circle cx="440" cy="680" r="5"></circle>
+  <circle cx="760" cy="660" r="6" class="lit"></circle>
+  <circle cx="820" cy="840" r="5"></circle>
+  <circle cx="380" cy="860" r="5"></circle>
+  <circle cx="200" cy="820" r="5"></circle>
+</svg>
+
+<header class="hero">
+  <div class="wrap hero-inner">
+    <div class="photo-slot">
+      <img src="img/Yope.jpeg" alt="Fotografía de Uriel Elihú Sánchez Proa">
+    </div>
+    <div>
+      <p class="kicker">Disponible para trabajar · CDMX</p>
+      <h1>Uriel Elihú Sánchez Proa</h1>
+      <p class="role">Ingeniero en Sistemas Computacionales en formación & Especialista en Soporte, Infraestructura de Redes y Sistemas TI.</p>
+      <div class="contact-row">
+        <span><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M3 6h18v12H3z"/><path d="M3 7l9 6 9-6"/></svg>urielproa04@gmail.com</span>
+        <span><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M6 3h4l1 5-2.5 1.5a12 12 0 0 0 6 6L16 13l5 1v4a2 2 0 0 1-2 2C10.5 20 4 13.5 4 5a2 2 0 0 1 2-2z"/></svg>55 28 45 41 14</span>
+        <span><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="12" cy="10" r="3"/><path d="M12 21s7-6.5 7-11a7 7 0 1 0-14 0c0 4.5 7 11 7 11z"/></svg>Ciudad de México</span>
+      </div>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="mailto:urielproa04@gmail.com">Enviar correo</a>
+        <a class="btn btn-ghost" href="tel:+525528454114">Llamar</a>
+        <a class="btn btn-ghost" href="https://github.com/urielsp117" target="_blank" rel="noopener">Ver GitHub</a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section id="perfil">
+    <div class="section-head">
+      <h2>Perfil</h2>
+      <span class="section-num">01</span>
+    </div>
+    <p class="lead">Estudiante de Ingeniería en Sistemas Computacionales y Técnico en Informática con experiencia en la gestión operativa y administración de la infraestructura tecnológica de un sitio completo (hardware, software, redes, servidores y sistemas multimedia). Certificado en la trayectoria completa Cisco CCNA, con sólidos conocimientos en direccionamiento IP, diagnóstico y resolución de fallas de conectividad (Troubleshooting), mantenimiento de equipos y desarrollo de software. Enfocado en garantizar la continuidad operativa, productividad y eficiencia tecnológica.</p>
+  </section>
+
+  <section id="experiencia">
+    <div class="section-head">
+      <h2>Experiencia profesional</h2>
+      <span class="section-num">02</span>
+    </div>
+    <div class="timeline">
+
+      <div class="tl-item">
+        <span class="tl-dot"></span>
+        <div class="tl-date">04/2024 — 10/2025</div>
+        <p class="tl-role">Líder de Inteligencia Tecnológica Atmosférica (LITA)</p>
+        <p class="tl-org">Cinépolis · CDMX</p>
+        <ul class="tl-list">
+          <li>Gestión y administración integral del departamento de TI del complejo: soporte preventivo y correctivo a hardware, servidores, redes locales y equipos de proyección digital.</li>
+          <li>Monitoreo y diagnóstico continuo de la infraestructura de audio, video, servidores y consolas punto de venta (POS) para mantener la alta disponibilidad operativa.</li>
+          <li>Programación, carga, orquestación y validación técnica de contenidos cinematográficos, ejecutando pruebas de audio, video y automatización pre-exhibición.</li>
+          <li>Configuración y administración de red: direccionamiento IP, pruebas de rendimiento, resolución de problemas en LAN/WAN y aseguramiento de la conectividad corporativa e Internet.</li>
+          <li>Atención de incidencias críticas en coordinación directa con el equipo de soporte corporativo y proveedores externos para el cumplimiento de SLAs.</li>
+        </ul>
+      </div>
+
+      <div class="tl-item">
+        <span class="tl-dot"></span>
+        <div class="tl-date">04/2023 — 04/2024</div>
+        <p class="tl-role">Empleado General</p>
+        <p class="tl-org">Cinépolis · CDMX</p>
+        <ul class="tl-list">
+          <li>Colaboración en la operación diaria del complejo, brindando atención al cliente de alto nivel en áreas operativas y puntos de venta.</li>
+          <li>Manejo de caja, cobro en sistemas punto de venta (POS) y control básico de inventario de insumos.</li>
+          <li>Mantenimiento de áreas comunes y resolución directa e inmediata de inquietudes o incidencias presentadas por los clientes.</li>
+        </ul>
+      </div>
+
+      <div class="tl-item">
+        <span class="tl-dot"></span>
+        <div class="tl-date">2019 — 2023</div>
+        <p class="tl-role">Ventas y Atención al Cliente</p>
+        <p class="tl-org">Pure Water · Comercio Local, CDMX</p>
+        <ul class="tl-list">
+          <li>Asesoría personalizada al cliente durante el ciclo de venta, fortaleciendo habilidades interpersonales y de comunicación.</li>
+          <li>Manejo de efectivo, arqueos diarios y registro de ventas locales.</li>
+          <li>Organización, control e inventario de mercancía en piso de venta.</li>
+        </ul>
+      </div>
+
+    </div>
+  </section>
+
+  <section id="educacion">
+    <div class="section-head">
+      <h2>Educación</h2>
+      <span class="section-num">03</span>
+    </div>
+    <div class="grid-2">
+      <div class="card">
+        <h3>Ingeniería en Sistemas Computacionales</h3>
+        <p>Universidad Tecnológica de México (UNITEC) · CDMX</p>
+        <span class="date">09/2023 — presente</span>
+      </div>
+      <div class="card">
+        <h3>Técnico en Informática</h3>
+        <p>Colegio Tecnológico de México · CDMX</p>
+        <span class="date">06/2019 — 06/2022</span>
+      </div>
+    </div>
+  </section>
+
+  <section id="skills">
+    <div class="section-head">
+      <h2>Habilidades Técnicas</h2>
+      <span class="section-num">04</span>
+    </div>
+    <div class="skill-grid">
+      <span class="skill-pill core">Soporte Técnico N1/N2</span>
+      <span class="skill-pill core">Redes LAN/WAN & Routing/Switching</span>
+      <span class="skill-pill core">Direccionamiento IP (IPv4)</span>
+      <span class="skill-pill core">Diagnóstico & Troubleshooting</span>
+      <span class="skill-pill">Sistemas Operativos Windows & Linux</span>
+      <span class="skill-pill">Gestión de Incidencias & SLAs</span>
+      <span class="skill-pill">Bases de Datos SQL</span>
+      <span class="skill-pill">Mantenimiento Preventivo & Correctivo</span>
+      <span class="skill-pill">Java, Python & C++</span>
+      <span class="skill-pill">Atención y Servicio al Cliente</span>
+    </div>
+  </section>
+
+  <section id="certificados">
+    <div class="section-head">
+      <h2>Certificaciones</h2>
+      <span class="section-num">05</span>
+    </div>
+    <div class="cert-grid">
+      <div class="cert">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M12 2 3 6v6c0 5 4 9 9 10 5-1 9-5 9-10V6z"/></svg>
+        <p>CCNA — Introducción a las Redes</p>
+        <span>Cisco Networking Academy</span>
+      </div>
+      <div class="cert">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M12 2 3 6v6c0 5 4 9 9 10 5-1 9-5 9-10V6z"/></svg>
+        <p>CCNA — Conmutación, Enrutamiento y Redes Inalámbricas</p>
+        <span>Cisco Networking Academy</span>
+      </div>
+      <div class="cert">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M12 2 3 6v6c0 5 4 9 9 10 5-1 9-5 9-10V6z"/></svg>
+        <p>CCNA — Redes Empresariales, Seguridad y Automatización</p>
+        <span>Cisco Networking Academy</span>
+      </div>
+    </div>
+  </section>
+
+  <section id="proyecto">
+    <div class="section-head">
+      <h2>Proyectos Desarrollados</h2>
+      <span class="section-num">06</span>
+    </div>
+    <div class="project">
+      <div>
+        <h3>Tienda de ropa en línea — Pure Water</h3>
+        <p>Plataforma web de comercio electrónico desarrollada con tecnologías Frontend (HTML/CSS) y arquitectura modular para la digitalización de ventas del comercio local.</p>
+        <span class="date">09/2025 — 12/2025</span>
+      </div>
+      <a href="https://github.com/urielsp117/tienda-ropa-pure-warer.git" target="_blank" rel="noopener">Ver repositorio ↗</a>
+    </div>
+  </section>
+
+  <section id="intereses">
+    <div class="section-head">
+      <h2>Idiomas e Intereses Tecnológicos</h2>
+      <span class="section-num">07</span>
+    </div>
+    <div class="skill-grid">
+      <span class="skill-pill core">Español (Nativo)</span>
+      <span class="skill-pill core">Inglés (Conversacional & Lectura Técnica)</span>
+      <span class="skill-pill">Desarrollo Web (HTML5 / CSS3)</span>
+      <span class="skill-pill">Programación Orientada a Objetos</span>
+      <span class="skill-pill">Automatización de Tareas</span>
+      <span class="skill-pill">Videojuegos & Tecnología</span>
+    </div>
+  </section>
+
+</main>
+
+<footer class="wrap">
+  <div class="foot-inner">
+    <div>
+      <h2>Hablemos.</h2>
+      <p>Abierto a oportunidades en soporte técnico, infraestructura, administración de sistemas y redes en CDMX.</p>
+    </div>
+    <div class="foot-links">
+      <a href="mailto:urielproa04@gmail.com">urielproa04@gmail.com</a>
+      <a href="tel:+525528454114">55 28 45 41 14</a>
+      <a href="https://github.com/urielsp117" target="_blank" rel="noopener">github.com/urielsp117</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
